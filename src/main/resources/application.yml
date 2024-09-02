@@ -1,0 +1,31 @@
+spring:
+  main:
+    web-application-type: none
+
+  jpa:
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+        use_sql_comments: false
+
+  datasource-first:
+    jdbc-url: jdbc:mysql://localhost:3306/spring_batch
+    username: root
+    password: admin
+    driver-class: com.mysql.jdbc.Driver
+
+  datasource-second:
+    jdbc-url: jdbc:mysql://localhost:3306/sprout_db
+    username: root
+    password: admin
+    driver-class: com.mysql.jdbc.Driver
+
+  batch:
+    job:
+      enabled: true
+    jdbc:
+      initialize-schema: always
+
+  map:
+    map-path: this is love
