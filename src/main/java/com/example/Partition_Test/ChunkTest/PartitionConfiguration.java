@@ -24,10 +24,11 @@ public class PartitionConfiguration {
 
     private final PathConfig pathConfig;
     private final MapConfig mapConfig;
+    private final FlatListener flatListener;
 
 
 
-    @Bean
+/*    @Bean
     public Job partitionJob(JobRepository jobRepository
                                 , @Qualifier("step") Step step){
         System.out.println(pathConfig.mapConfig().getMapPath());
@@ -38,17 +39,17 @@ public class PartitionConfiguration {
                 .incrementer(new RunIdIncrementer())
                 .listener(new AgvJobListener())
                 .build();
-    }
+    }*/
 
-/*    @Bean
+    @Bean
     public Job faltJob(JobRepository jobRepository
             , @Qualifier("flatStep1") Step flatStep1){
         return new JobBuilder("flatJob", jobRepository)
                 .start(flatStep1)
                 .incrementer(new RunIdIncrementer())
-                .listener(new FlatListener())
+                .listener(flatListener)
                 .build();
-    }*/
+    }
 
 
 
