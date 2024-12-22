@@ -5,12 +5,15 @@ import com.example.Partition_Test.ChunkTest.config.MapConfig;
 import com.example.Partition_Test.ChunkTest.config.PathConfig;
 import com.example.Partition_Test.ChunkTest.listener.AgvJobListener;
 import com.example.Partition_Test.ChunkTest.listener.FlatListener;
+import jakarta.el.CompositeELResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.listener.StepExecutionListenerSupport;
 import org.springframework.batch.core.repository.JobRepository;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,33 +28,17 @@ public class PartitionConfiguration {
     private final PathConfig pathConfig;
     private final MapConfig mapConfig;
     private final FlatListener flatListener;
-
-
-
-/*    @Bean
-    public Job partitionJob(JobRepository jobRepository
-                                , @Qualifier("step") Step step){
-        System.out.println(pathConfig.mapConfig().getMapPath());
-
-        System.out.println("mapconfig : "+mapConfig.getMapPath());
-        return new JobBuilder("partitionJob", jobRepository)
-                .start(step)
-                .incrementer(new RunIdIncrementer())
-                .listener(new AgvJobListener())
-                .build();
-    }*/
+    private CompositeELResolver stepExecutionListeners;
 
     @Bean
-    public Job faltJob(JobRepository jobRepository
-            , @Qualifier("flatStep1") Step flatStep1){
-        return new JobBuilder("flatJob", jobRepository)
-                .start(flatStep1)
+    public Job partitionJob(JobRepository jobRepository
+                                , @Qualifier("step") Step step){
+        return new JobBuilder("partitionJob", jobRepository)
+                .start(step)
+                .next(step)
+                .listener(new AgvJobListener())
                 .incrementer(new RunIdIncrementer())
-                .listener(flatListener)
                 .build();
     }
-
-
-
 
 }

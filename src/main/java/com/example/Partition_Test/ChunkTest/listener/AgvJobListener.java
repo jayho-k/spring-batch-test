@@ -34,6 +34,13 @@ public class AgvJobListener implements JobExecutionListener {
         timeMap.put("endTime",endTime);
 
         jobExecution.getExecutionContext().put("agvTimeMap", timeMap);
+
+        Map<String, Boolean> dataSourceMap = new HashMap<>();
+        dataSourceMap.put("1", false);
+        dataSourceMap.put("2", false);
+
+        jobExecution.getExecutionContext().put("dataSourceMap", dataSourceMap);
+
     }
 
     @Override
@@ -42,6 +49,5 @@ public class AgvJobListener implements JobExecutionListener {
         Duration duration = Duration.between(jobExecution.getEndTime(), jobExecution.getStartTime());
 
         System.out.println("job execute time : "  + duration);
-
     }
 }
