@@ -7,6 +7,8 @@ import com.example.Partition_Test.ChunkTest.dto.AgvAgvSumDto;
 import com.example.Partition_Test.ChunkTest.dto.AgvSumDto;
 import com.example.Partition_Test.ChunkTest.entity.first.Agv;
 import com.example.Partition_Test.ChunkTest.entity.second.MultiDb;
+import com.example.Partition_Test.ChunkTest.repository.AgvRepository;
+import com.example.Partition_Test.ChunkTest.repository.AgvRepositoryFactory;
 import com.example.Partition_Test.ChunkTest.repository.first.AgvRepository1;
 import com.example.Partition_Test.ChunkTest.repository.second.AgvRepository2;
 import com.example.Partition_Test.ChunkTest.repository.second.MultiDbRepository;
@@ -27,11 +29,9 @@ public class CustomItemWriter<T> extends JdbcBatchItemWriter<T> {
 
     private final DelegateEnum delegateEnum;
     private final boolean isEven;
-
-    private final AgvRepository1 agvRepository1;
-    private final AgvRepository2 agvRepository2;
     private final Map<String, Boolean> dataSourceMap;
     private DelegateTest delegateTest;
+    private final AgvRepositoryFactory agvRepositoryFactory;
 
 
     Queue<Agv> q = new LinkedList<>();
@@ -50,7 +50,9 @@ public class CustomItemWriter<T> extends JdbcBatchItemWriter<T> {
         times.add(8);
         times.add(9);
 
-        List<AgvAgvSumDto> agvAndSum = getAgvAndSum(times);
+        int type = 1;
+
+        List<AgvAgvSumDto> agvAndSum = agvRepositoryFactory.getAgvRepository(type).findAgvAndSum(times);
 
         for(AgvAgvSumDto agv : agvAndSum){
             System.out.println("agv time : " + agv.getTime());
@@ -72,19 +74,5 @@ public class CustomItemWriter<T> extends JdbcBatchItemWriter<T> {
         this.delegateTest = delegateTest;
     }
 
-
-    private List<AgvAgvSumDto> getAgvAndSum(List<Integer> times){
-
-        for (String dataSourceMapKey : dataSourceMap.keySet()){
-            if (dataSourceMap.get(dataSourceMapKey) == true) continue;
-            if (dataSourceMapKey.equals("1")){
-                return agvRepository1.findAgvAndSum(times);
-            }
-            else if (dataSourceMapKey.equals("2")){
-                return agvRepository2.findAgvAndSum(times);
-            }
-        }
-        return null;
-    }
 
 }

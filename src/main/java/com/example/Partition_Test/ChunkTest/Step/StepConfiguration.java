@@ -6,6 +6,7 @@ import com.example.Partition_Test.ChunkTest.delegate.DelegateTest;
 import com.example.Partition_Test.ChunkTest.entity.first.Agv;
 
 import com.example.Partition_Test.ChunkTest.listener.AgvStepListener;
+import com.example.Partition_Test.ChunkTest.repository.AgvRepositoryFactory;
 import com.example.Partition_Test.ChunkTest.repository.first.AgvRepository1;
 import com.example.Partition_Test.ChunkTest.repository.second.AgvRepository2;
 import com.example.Partition_Test.ChunkTest.repository.second.MultiDbRepository;
@@ -53,8 +54,7 @@ public class StepConfiguration {
     @Qualifier("secondDataSource")
     private final DataSource secondDataSource;
 
-    private final AgvRepository1 agvRepository1;
-    private final AgvRepository2 agvRepository2;
+    private final AgvRepositoryFactory agvRepositoryFactory;
 
     @Bean
     @JobScope
@@ -129,7 +129,7 @@ public class StepConfiguration {
 
         String sql = "insert into agvsum (sum, agv_id) values (:sum, :agvId)";
 
-        CustomItemWriter<Agv> agvCustomItemWriter = new CustomItemWriter<>(DelegateEnum.EVEN_ODD,true, agvRepository1, agvRepository2, dataSourceMap);
+        CustomItemWriter<Agv> agvCustomItemWriter = new CustomItemWriter<>(DelegateEnum.EVEN_ODD,true, dataSourceMap, agvRepositoryFactory);
 
         agvCustomItemWriter.setDelegateTest(delegateTest);
         agvCustomItemWriter.setDataSource(getDataSource(dataSourceMap));

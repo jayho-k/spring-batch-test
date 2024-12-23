@@ -2,13 +2,14 @@ package com.example.Partition_Test.ChunkTest.repository.first;
 
 import com.example.Partition_Test.ChunkTest.entity.first.Agv;
 import com.example.Partition_Test.ChunkTest.dto.AgvAgvSumDto;
+import com.example.Partition_Test.ChunkTest.repository.AgvRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface AgvRepository1 extends JpaRepository<Agv, Long> {
+public interface AgvRepository1 extends JpaRepository<Agv, Long>, AgvRepository {
     //@Query("select new com.zzangmin.gesipan.layer.basiccrud.dto.post.PostSimpleQueryDTO(p.postId, p.postSubject, p.baseTime.createdAt, p.hitCount, p.user.userId, p.user.userNickname) from Post p join fetch p.user where p.postId in :postIds")
 
     String AgvAgvSumDtoAddress = "new com.example.Partition_Test.ChunkTest.dto.AgvAgvSumDto(a.time, b.sum)";
