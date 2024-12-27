@@ -8,22 +8,22 @@ spring:
         show_sql: false
         format_sql: false
         use_sql_comments: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      multiTenancy: SCHEMA
+      tenant_identifier_resolver: com.example.Partition_Test.ChunkTest.config.tenant.TenantIdentifierResolver
+      multi_tenant_connection_provider: com.example.Partition_Test.ChunkTest.config.tenant.TenantConnectProvider
 
-  datasource-first:
-    jdbc-url: jdbc:mysql://localhost:3306/spring_batch
-    username: root
-    password: admin
-    driver-class: com.mysql.jdbc.Driver
-
-  datasource-second:
-    jdbc-url: jdbc:mysql://localhost:3306/sprout_db
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_batch
     username: root
     password: admin
     driver-class: com.mysql.jdbc.Driver
 
   batch:
     job:
-      enabled: true
+      enabled: false
     jdbc:
       initialize-schema: always
 

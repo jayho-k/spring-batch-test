@@ -12,8 +12,13 @@ import java.util.Map;
 
 public class AgvJobListener implements JobExecutionListener {
 
+    private String agvJobType;
     private static int intervalHour = 0;
     private static int intervalMin = 10;
+
+    public AgvJobListener(String agvJobType) {
+        this.agvJobType = agvJobType;
+    }
 
     @Override
     public void beforeJob(JobExecution jobExecution) {

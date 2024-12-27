@@ -1,16 +1,19 @@
 package com.example.Partition_Test;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 import static org.springframework.boot.WebApplicationType.NONE;
 
+@EnableScheduling
+@EnableBatchProcessing
 @SpringBootApplication
-@RequiredArgsConstructor
 public class PartitionTestApplication {
 
 	public static void main(String[] args) {

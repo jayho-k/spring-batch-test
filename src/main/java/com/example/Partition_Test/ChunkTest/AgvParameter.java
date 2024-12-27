@@ -12,6 +12,6 @@ import javax.sql.DataSource;
 @RequiredArgsConstructor
 public class AgvParameter {
 
-    private final DataSource dataSource;
-    private int chunkSize = 30;
+        private final DataSource dataSource;
+        private int chunkSize = 30;
 }
