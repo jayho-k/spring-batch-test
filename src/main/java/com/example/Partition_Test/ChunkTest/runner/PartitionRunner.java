@@ -21,9 +21,10 @@ public class PartitionRunner {
     private final Job partitionJob;
     private final JobLauncher jobLauncher;
     private final TenantIdentifierResolver tenantIdentifierResolver;
-    private static final List<String> schemas = List.of("spring_batch", "sprout_db");
+    //private static final List<String> schemas = List.of("spring_batch", "sprout_db");
+    private static final List<String> schemas = List.of("sprout_db");
 
-    @Scheduled(cron = "0/30 * * * * *")
+    @Scheduled(cron = "0/50 * * * * *")
     public void runPartitionRunner(){
         schemas.stream()
                 .forEach(

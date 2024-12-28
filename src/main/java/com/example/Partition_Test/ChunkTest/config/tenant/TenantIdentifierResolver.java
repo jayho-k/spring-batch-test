@@ -21,11 +21,11 @@ public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver
 
     public void setCurrentTenant(String tenant){
         currentTenant.set(tenant.toLowerCase().trim());
-        log.info(">>>>>>>> {} <<<<<<<<< currentTenant 설정 완료", currentTenant.get());
+        log.info(">>>>>>>> {} <<<<<<<<< currentTenant [setCurrentTenant]", currentTenant.get());
     }
     public void removeCurrentTenant() {
+        log.info(">>>>>>>> {} <<<<<<<<< currentTenant [removeTenant]", currentTenant.get());
         currentTenant.remove();
-        log.info(">>>>>>>> {} <<<<<<<<< currentTenant 해제 완료", currentTenant.get());
     }
 
     private void checkThreadLocal() throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
