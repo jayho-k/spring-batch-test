@@ -12,8 +12,13 @@ import java.util.Map;
 
 public class AgvJobListener implements JobExecutionListener {
 
+    private String agvJobType;
     private static int intervalHour = 0;
     private static int intervalMin = 10;
+
+    public AgvJobListener(String agvJobType) {
+        this.agvJobType = agvJobType;
+    }
 
     @Override
     public void beforeJob(JobExecution jobExecution) {
@@ -35,11 +40,7 @@ public class AgvJobListener implements JobExecutionListener {
 
         jobExecution.getExecutionContext().put("agvTimeMap", timeMap);
 
-        Map<String, Boolean> dataSourceMap = new HashMap<>();
-        dataSourceMap.put("1", false);
-        dataSourceMap.put("2", false);
-
-        jobExecution.getExecutionContext().put("dataSourceMap", dataSourceMap);
+        jobExecution.getExecutionContext().put("agvJobType", agvJobType);
 
     }
 

@@ -1,6 +1,6 @@
 package com.example.Partition_Test.ChunkTest.mapper;
 
-import com.example.Partition_Test.ChunkTest.entity.first.Flat1;
+import com.example.Partition_Test.ChunkTest.domain.entity.Flat1;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.validation.BindException;
