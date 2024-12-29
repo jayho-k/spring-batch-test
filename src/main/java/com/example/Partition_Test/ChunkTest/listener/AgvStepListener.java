@@ -9,6 +9,6 @@ public class AgvStepListener implements StepExecutionListener {
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
-
+        stepExecution.getExecutionContext().put("test","test");
     }
 }

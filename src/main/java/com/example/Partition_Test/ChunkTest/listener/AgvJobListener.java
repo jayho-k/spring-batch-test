@@ -40,11 +40,7 @@ public class AgvJobListener implements JobExecutionListener {
 
         jobExecution.getExecutionContext().put("agvTimeMap", timeMap);
 
-        Map<String, Boolean> dataSourceMap = new HashMap<>();
-        dataSourceMap.put("1", false);
-        dataSourceMap.put("2", false);
-
-        jobExecution.getExecutionContext().put("dataSourceMap", dataSourceMap);
+        jobExecution.getExecutionContext().put("agvJobType", agvJobType);
 
     }
 

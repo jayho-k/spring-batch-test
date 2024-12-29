@@ -24,7 +24,7 @@ public class PartitionRunner {
     //private static final List<String> schemas = List.of("spring_batch", "sprout_db");
     private static final List<String> schemas = List.of("sprout_db");
 
-    @Scheduled(cron = "0/50 * * * * *")
+    @Scheduled(cron = "0/10 * * * * *")
     public void runPartitionRunner(){
         schemas.stream()
                 .forEach(

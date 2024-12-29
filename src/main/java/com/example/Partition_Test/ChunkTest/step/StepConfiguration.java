@@ -8,6 +8,7 @@ import com.example.Partition_Test.ChunkTest.domain.entity.Agv;
 import com.example.Partition_Test.ChunkTest.listener.AgvStepListener;
 import com.example.Partition_Test.ChunkTest.domain.repository.AgvRepository;
 import com.example.Partition_Test.ChunkTest.step.writer.CustomItemWriter;
+import com.example.Partition_Test.ChunkTest.tasklet.chunk.AgvTasklet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobScope;
@@ -33,9 +34,7 @@ import java.util.HashMap;
 public class StepConfiguration {
 
     private final AgvParameter agvParameter;
-    private final DelegateTest delegateTest;
-    private final DataSource dataSource;
-    private final AgvRepository agvRepository;
+    private final AgvTasklet agvTasklet;
 
     @Bean
     @JobScope
@@ -43,52 +42,11 @@ public class StepConfiguration {
              ,PlatformTransactionManager platformTransactionManager) throws Exception {
         return new StepBuilder("step", jobRepository)
                 .<Agv, Agv>chunk(agvParameter.getChunkSize(), platformTransactionManager)
-                .reader(agvItemReader())
-                .writer(customItemWriter())
+                .reader(agvTasklet.agvItemReader(null))
+                .writer(agvTasklet.customItemWriter())
                 .listener(new AgvStepListener())
                 .build();
     }
 
-    @Bean
-    @StepScope
-    public ItemReader<Agv> agvItemReader() throws Exception {
 
-        JdbcPagingItemReader<Agv> reader = new JdbcPagingItemReader<>();
-
-        reader.setDataSource(agvParameter.getDataSource());
-        reader.setPageSize(agvParameter.getChunkSize());
-        reader.setRowMapper(new BeanPropertyRowMapper(Agv.class));
-
-        MySqlPagingQueryProvider queryProvider = new MySqlPagingQueryProvider();
-        queryProvider.setSelectClause("id, time, even");
-        queryProvider.setFromClause("from agv");
-
-        HashMap<String, Order> sortKeys = new HashMap<>(1);
-        sortKeys.put("id", Order.ASCENDING);
-        queryProvider.setSortKeys(sortKeys);
-
-        reader.setQueryProvider(queryProvider);
-        reader.afterPropertiesSet();
-
-        return reader;
-    }
-
-
-    @Bean
-    @StepScope
-    public CustomItemWriter<Agv> customItemWriter(){
-
-        String sql = "insert into agvsum (sum, agv_id) values (:sum, :agvId)";
-
-        CustomItemWriter<Agv> agvCustomItemWriter = new CustomItemWriter<>(DelegateEnum.EVEN_ODD,true, agvRepository);
-
-        agvCustomItemWriter.setDelegateTest(delegateTest);
-        agvCustomItemWriter.setDataSource(dataSource);
-        agvCustomItemWriter.setSql(sql);
-        agvCustomItemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
-
-        agvCustomItemWriter.afterPropertiesSet();
-
-        return agvCustomItemWriter;
-    }
 }
