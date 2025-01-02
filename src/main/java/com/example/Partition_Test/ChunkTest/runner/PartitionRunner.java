@@ -1,5 +1,7 @@
 package com.example.Partition_Test.ChunkTest.runner;
 
+import com.example.Partition_Test.ChunkTest.config.paramter.DbParam;
+import com.example.Partition_Test.ChunkTest.config.paramter.MapParam;
 import com.example.Partition_Test.ChunkTest.config.tenant.TenantIdentifierResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.*;
@@ -21,12 +23,12 @@ public class PartitionRunner {
     private final Job partitionJob;
     private final JobLauncher jobLauncher;
     private final TenantIdentifierResolver tenantIdentifierResolver;
-    //private static final List<String> schemas = List.of("spring_batch", "sprout_db");
-    private static final List<String> schemas = List.of("sprout_db");
+    private final DbParam dbParam;
 
     @Scheduled(cron = "0/10 * * * * *")
     public void runPartitionRunner(){
-        schemas.stream()
+
+        dbParam.getSCHEMAS().stream()
                 .forEach(
                     schema ->{
                         tenantIdentifierResolver.setCurrentTenant(schema);
@@ -36,10 +38,11 @@ public class PartitionRunner {
                                 .addString("schema", schema)
                                 .addLong("timestamp", System.currentTimeMillis())
                                 .toJobParameters();
+
                         try{
                             jobLauncher.run(partitionJob, jobParameters);
                         }
-                        catch ( JobExecutionAlreadyRunningException | JobRestartException |
+                        catch (JobExecutionAlreadyRunningException | JobRestartException |
                                JobInstanceAlreadyCompleteException | JobParametersInvalidException e){
                             throw new RuntimeException(e);
                         }

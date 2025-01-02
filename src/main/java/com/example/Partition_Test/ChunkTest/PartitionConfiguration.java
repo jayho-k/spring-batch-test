@@ -1,8 +1,8 @@
 package com.example.Partition_Test.ChunkTest;
 
 
-import com.example.Partition_Test.ChunkTest.config.MapConfig;
-import com.example.Partition_Test.ChunkTest.config.PathConfig;
+import com.example.Partition_Test.ChunkTest.config.paramter.MapParam;
+import com.example.Partition_Test.ChunkTest.config.paramter.ParameterConfig;
 import com.example.Partition_Test.ChunkTest.listener.AgvJobListener;
 import com.example.Partition_Test.ChunkTest.listener.FlatListener;
 import jakarta.el.CompositeELResolver;
@@ -20,8 +20,8 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class PartitionConfiguration {
 
-    private final PathConfig pathConfig;
-    private final MapConfig mapConfig;
+    private final ParameterConfig pathConfig;
+    private final MapParam mapConfig;
     private final FlatListener flatListener;
     private CompositeELResolver stepExecutionListeners;
 
