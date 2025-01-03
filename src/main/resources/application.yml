@@ -31,8 +31,10 @@ spring:
     mixing-username: spring_batch
     electrode-username: sprout_db
 
-
-
   map:
-    map-path: this is love
+    mixing:
+      path: this is mixing
+    electrode:
+      path: this is electrorde
+
 
